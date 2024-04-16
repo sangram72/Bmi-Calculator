@@ -1,0 +1,83 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: rgba(71, 71, 71, 1.0);
+    background: conic-gradient(from 135deg, rgba(71, 71, 71, 1.0), rgba(11, 11, 11, 1.0));
+}
+
+.calculator {
+    width: 90%; /* Adjust container width */
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 40px;
+    border-radius: 10px;
+    background-color: #333333;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+}
+
+.section {
+    margin-bottom: 30px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+label {
+    color: #fff;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #fff;
+    border-radius: 5px;
+    color: #333;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #ffaa00;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+p {
+    text-align: center;
+    color: #fff;
+}
+
+/* Media Queries for responsiveness */
+@media screen and (min-width: 768px) {
+    .calculator {
+        width: 70%; /* Adjust container width for medium screens */
+    }
+}
+
+@media screen and (min-width: 992px) {
+    .calculator {
+        width: 60%; /* Adjust container width for large screens */
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .calculator {
+        width: 50%; /* Adjust container width for extra-large screens */
+    }
+}

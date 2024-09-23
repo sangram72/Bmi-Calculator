@@ -18,11 +18,11 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={isAuthenticated ? <Navigate to="/Home" replace /> : <Login />}
+          element={isAuthenticated ? <Home/> : <Login />}
         />
         <Route
           path="/Home"
-          element={isAuthenticated ? <Home /> : <Navigate to="/" replace />}
+          element={isAuthenticated ? <Home /> : <Login/>}
         />
       </Routes>
     </BrowserRouter>

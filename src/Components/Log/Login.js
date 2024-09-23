@@ -1,50 +1,171 @@
 import React, { useState } from 'react';
 import './Login.css';
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 const Login = () => {
-
-  const navigation = useNavigate()
+    const navigation = useNavigate();
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [otpss, setotpss] = useState('');
+const[otpactive,setotpactive]=useState(false)
+const [username,setusername]=useState('')
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Add your login logic here
-        console.log('Logging in with:', email, password);
+const validateEmail = (email) => {
+  
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+};
+
+
+
+// for sending otp to the email and verify the email is valid or not 
+
+const sendemail = async (e) => {
+ 
+    
+    if (validateEmail(email)) {
+        if (email != null || email != '') {
+            try {
+                const response = await fetch('https://bmi-calculator-backend-7eox.onrender.com/sendemail', {
+                    method: 'POST',
+                    body: JSON.stringify({ email }), 
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const result = await response.json();
+                console.log(result);
+
+                if (result.message) {
+                    setotpactive(true);
+                }
+
+                // Clear email and otp fields after the response
+                setEmail("");
+                setotpss("");
+                
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    } else if (!validateEmail(email)) {
+        alert("Please enter a valid email");
+    } else {
+        alert("Enter your email");
+    }
+};
+
+
+function local(){
+    
+    localStorage.setItem("userdetails",username)
+}
+
+
+
+
+
+    // for verifying the otp from the backend
+
+    const verifyotp = async (e) => {
+
+        let hexOtp = '';    
+        for (let i = 0; i < otpss.length; i++) {
+    
+            hexOtp += otpss.charCodeAt(i).toString(16);
+        }
+    
+        console.log(hexOtp);  
+    
+        if (otpss != null && otpss !== "") {
+            try {
+                const response = await fetch('https://bmi-calculator-backend-7eox.onrender.com/verifyotp', {
+                    method: 'POST',
+                    body: JSON.stringify({ hexOtp }), // Use hexOtp here
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+    
+                const responseJson = await response.json();  // Rename the result variable\
+
+
+                if(username.length>5 && username.length<10){
+    if(username!=null && username!=="" ){
+        local()
+                if (responseJson.status === "true") {
+                    navigation('/Home');
+                } else {
+                    alert("Invalid Otp");
+                }
+            }else{
+                alert("enter your username")
+            }
+        }else{
+alert("username should be under 6 to 9 characters")
+        }
+
+
+                console.log(responseJson);  // Log the response
+    
+            } catch (error) {
+                console.log(error);
+            }
+        } else {
+            alert("Please enter an OTP");
+        }
     };
+    
+
 
     return (
         <div className="container">
             <div className="form-container">
                 <h1>Login</h1>
-                <form onSubmit={handleSubmit}>
-                    <div className="form-group">
+                {otpactive === false ? (
+                    <>
+                        <div className="form-group">
+                            <input
+                                type="email"
+                                placeholder="Email Address"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                            />
+                        </div>
+                        <button type="submit" onClick={sendemail}>
+                            Login with Otp
+                        </button>
+                    </>
+                ) : (
+                    <>
+                        <div className="form-group">
                         <input
-                            type="email"
-                            placeholder="Email Address"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                        />
-                    </div>
-                    <div className="form-group">
-                        <input
-                            type="password"
-                            placeholder="Password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                        />
-                    </div>
-                    <button type="submit">Login</button>
-                </form>
-                <p>Don't have an account? <a onClick={()=>{
-                           navigation('/')
-                }}>Sign up</a></p>
+                                type="text"
+                                value={username}
+                                placeholder="Enter Your Username"
+                                onChange={(e) => setusername(e.target.value)}
+                                required
+                            />
+                            <input
+                            style={{marginTop:15}}
+                                type="text"
+                                value={otpss}
+                                placeholder="Enter Your OTP"
+                                onChange={(e) => setotpss(e.target.value)}
+                                required
+                            />
+                        </div>
+                        <button type="submit" onClick={verifyotp}>
+                            Verify OTP
+                        </button>
+                    </>
+                )}
             </div>
         </div>
     );
+    
 }
 
 export default Login;

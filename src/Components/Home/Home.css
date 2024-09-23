@@ -6,7 +6,18 @@
     background: rgba(71, 71, 71, 1.0);
     background: conic-gradient(from 135deg, rgba(71, 71, 71, 1.0), rgba(11, 11, 11, 1.0));
 }
-
+h2 {
+    font-family: 'Poppins', sans-serif; /* A clean and modern font */
+    font-size: 2rem; /* Set a comfortable size */
+    color: #4a90e2; /* A soft blue color */
+    text-align: center; /* Center the text */
+    margin-top: 20px; /* Add some spacing at the top */
+    background-color: #f0f8ff; /* Light background for contrast */
+    padding: 10px 20px; /* Padding to make it feel more spacious */
+    border-radius: 10px; /* Slightly rounded corners */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    letter-spacing: 1px; /* Slight spacing between letters */
+}
 .calculator {
     width: 90%; /* Adjust container width */
     max-width: 700px;

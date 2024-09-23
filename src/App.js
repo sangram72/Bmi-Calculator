@@ -9,8 +9,8 @@ function App() {
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
-   
-    setIsAuthenticated(storedToken !== null); 
+    setIsAuthenticated(storedToken !== null);
+    console.log(isAuthenticated)
   }, []);
 
   return (
@@ -18,11 +18,11 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={isAuthenticated ? <Home/> : <Login />}
+          element={isAuthenticated ? <Navigate to="/Home" replace /> : <Login />}
         />
         <Route
           path="/Home"
-          element={isAuthenticated ? <Home /> : <Login/>}
+          element={isAuthenticated ? <Home /> : <Navigate to="/" replace />}
         />
       </Routes>
     </BrowserRouter>

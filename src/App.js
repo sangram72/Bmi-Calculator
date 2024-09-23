@@ -5,12 +5,12 @@ import Login from './Components/Log/Login';
 import { useEffect, useState } from 'react';
 
 function App() {
-  const [token, setToken] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState("false");
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
-    setToken(storedToken); // Store the token in state
-    console.log(storedToken);
+   
+    setIsAuthenticated(storedToken !== null); 
   }, []);
 
   return (
@@ -18,11 +18,11 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={token === "true" ? <Navigate to="/Home" replace /> : <Login />}
+          element={isAuthenticated ? <Navigate to="/Home" replace /> : <Login />}
         />
         <Route
           path="/Home"
-          element={token === "true" ? <Home /> : <Navigate to="/" replace />}
+          element={isAuthenticated ? <Home /> : <Navigate to="/" replace />}
         />
       </Routes>
     </BrowserRouter>

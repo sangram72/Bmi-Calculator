@@ -1,8 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './Home.css'
 function Home() {
     const[switchscreen,setswitchscreen]=useState(false)
-
+    const [username,setusername]=useState()
+useEffect(()=>{
+let data = localStorage.getItem("userdetails")
+setusername(data)
+},[])
 
     // for metric measurement
 const [weight,setweight]=useState(0)
@@ -91,6 +95,7 @@ function switchtostandard(){
   return (
  <div className="container">
       <div className="calculator">
+        <h2>Welcome, {username}</h2>
         {switchscreen==false?(
                     <div className="section">
                     <h1>Standard BMI Calculator</h1>
@@ -110,7 +115,7 @@ function switchtostandard(){
                     <button onClick={()=>{
                       bmicalculatestandard()
                     }}>Calculate BMI</button>
-                    <p>Your BMI Is: {finalstandard.toFixed(2)}</p>
+                    <p style={{fontWeight:'bold'}}>Your BMI Is: {finalstandard.toFixed(2)}</p>
                   </div>
         ):(
             <div className="section">
@@ -129,9 +134,17 @@ function switchtostandard(){
             <button onClick={()=>{
               bmicalculatemetric()
             }}>Calculate BMI</button>
-            <p>Your BMI Is: {final.toFixed(2)}</p>
+            <p style={{fontWeight:'bold'}}>Your BMI Is: {final.toFixed(2)}</p>
           </div>
         )}
+        <div style={{width:'100%'}}>
+          <p style={{fontWeight:'bold'}}>
+          Underweight = 18.5 or less  ||    
+Normal weight = 18.5–24.9  ||   
+Overweight = 25–29.9  ||   
+Obesity = BMI of 30 or greater
+</p>
+        </div>
 
 
        

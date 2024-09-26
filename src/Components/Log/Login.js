@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './Login.css';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-
+import loaders from "../../assets/gif.gif"
 const Login = () => {
     const navigation = useNavigate();
     const [email, setEmail] = useState('');
@@ -26,6 +26,7 @@ const sendemail = async (e) => {
     if (validateEmail(email)) {
         if (email != null || email != '') {
             try {
+                setloader(true)
                 const response = await fetch('https://bmi-calculator-backend-7eox.onrender.com/sendemail', {
                     method: 'POST',
                     body: JSON.stringify({ email }), 
@@ -36,8 +37,10 @@ const sendemail = async (e) => {
 
                 const result = await response.json();
                 console.log(result);
+        
 
                 if (result.message) {
+                    setloader(false)
                     setotpactive(true);
                 }
 
@@ -67,6 +70,7 @@ function local(){
 
 
     // for verifying the otp from the backend
+    const[loader,setloader]=useState(false)
 
     const verifyotp = async (e) => {
 
@@ -80,39 +84,49 @@ function local(){
     
         if (otpss != null && otpss !== "") {
             try {
+                setloader(true)
                 const response = await fetch('https://bmi-calculator-backend-7eox.onrender.com/verifyotp', {
                     method: 'POST',
-                    body: JSON.stringify({ hexOtp }), // Use hexOtp here
+                    body: JSON.stringify({ hexOtp }), 
                     headers: {
                         'Content-Type': 'application/json'
                     }
                 });
     
-                const responseJson = await response.json();  // Rename the result variable\
+                const responseJson = await response.json(); 
+         
 
-
+console.log(responseJson.status)
                 if(username.length>5 && username.length<10){
     if(username!=null && username!=="" ){
         local()
-                if (responseJson.status === "true") {
+                if (responseJson.status == "true") {
+           
+                    localStorage.setItem("token",responseJson.status)
                     navigation('/Home');
-                } else {
+                } else if(responseJson.status != "true"){
                     alert("Invalid Otp");
+                    setloader(false)
                 }
             }else{
                 alert("enter your username")
+            
             }
         }else{
 alert("username should be under 6 to 9 characters")
+
         }
 
 
                 console.log(responseJson);  // Log the response
     
             } catch (error) {
-                console.log(error);
+                alert(error.error)
+                setloader(false)
+                console.log(error.error);
             }
         } else {
+            setloader(false)
             alert("Please enter an OTP");
         }
     };
@@ -134,9 +148,13 @@ alert("username should be under 6 to 9 characters")
                                 required
                             />
                         </div>
-                        <button type="submit" onClick={sendemail}>
+                        {loader==false?( <button type="submit" onClick={sendemail}>
                             Login with Otp
+                        </button>):(
+                            <button type="submit" disabled={true}>
+                 <img src={loaders} style={{width:13,height:13}} alt='logo'/>
                         </button>
+                        )}
                     </>
                 ) : (
                     <>
@@ -157,9 +175,13 @@ alert("username should be under 6 to 9 characters")
                                 required
                             />
                         </div>
-                        <button type="submit" onClick={verifyotp}>
+                        {loader==false?( <button type="submit" onClick={verifyotp}>
                             Verify OTP
-                        </button>
+                        </button>):(
+                             <button type="submit" disabled={true}>
+                             <img src={loaders} style={{width:13,height:13}} alt='logo'/>
+                                    </button>
+                        )}
                     </>
                 )}
             </div>

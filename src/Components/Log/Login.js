@@ -152,7 +152,7 @@ alert("username should be under 6 to 9 characters")
                             Login with Otp
                         </button>):(
                             <button type="submit" disabled={true}>
-                 <img src={loaders} style={{width:13,height:13}} alt='logo'/>
+            loading......
                         </button>
                         )}
                     </>
@@ -179,7 +179,7 @@ alert("username should be under 6 to 9 characters")
                             Verify OTP
                         </button>):(
                              <button type="submit" disabled={true}>
-                             <img src={loaders} style={{width:13,height:13}} alt='logo'/>
+                              loading......
                                     </button>
                         )}
                     </>

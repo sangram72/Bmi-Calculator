@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './Login.css';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-import loaders from "../../assets/gif.gif"
+
 const Login = () => {
     const navigation = useNavigate();
     const [email, setEmail] = useState('');

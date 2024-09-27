@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Login.css';
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+
 
 const Login = () => {
     const navigation = useNavigate();
@@ -38,7 +38,7 @@ const sendemail = async (e) => {
                 const result = await response.json();
                 console.log(result);
         
-
+                  
                 if (result.message) {
                     setloader(false)
                     setotpactive(true);
@@ -103,7 +103,7 @@ console.log(responseJson.status)
                 if (responseJson.status == "true") {
            
                     localStorage.setItem("token",responseJson.status)
-                    navigation('/Home');
+                    navigation('/home');
                 } else if(responseJson.status != "true"){
                     alert("Invalid Otp");
                     setloader(false)

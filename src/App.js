@@ -1,23 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
-import { BrowserRouter,Route,Router,Routes } from 'react-router-dom';
-import Nav from './Components/Nav/Nav';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import Home from './Components/Home/Home';
-
-import Signup from './Components/Signup/Signup';
 import Login from './Components/Log/Login';
 
 function App() {
+  const [token, setToken] = useState(null);
+
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem('token');
+    setToken(storedToken);
+  }, []);
+
   return (
-   <BrowserRouter>
-   <Routes>
-          <Route path="/Home" element={<Home />} />
-           <Route path="/" element={<Login />} />
+    <BrowserRouter>
+      <Routes>
+     
+        <Route path="/" element={token ? <Navigate to="/home" /> : <Login />} />
 
-      
-   </Routes>
 
-   </BrowserRouter>
+        <Route path="/home" element={token ? <Home /> : <Navigate to="/" />} />
+        
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

@@ -73,10 +73,8 @@ function local(){
     const[loader,setloader]=useState(false)
 
     const verifyotp = async (e) => {
-
         let hexOtp = '';    
         for (let i = 0; i < otpss.length; i++) {
-    
             hexOtp += otpss.charCodeAt(i).toString(16);
         }
     
@@ -84,7 +82,7 @@ function local(){
     
         if (otpss != null && otpss !== "") {
             try {
-                setloader(true)
+                setloader(true);
                 const response = await fetch('https://bmi-calculator-backend-7eox.onrender.com/verifyotp', {
                     method: 'POST',
                     body: JSON.stringify({ hexOtp }), 
@@ -94,42 +92,44 @@ function local(){
                 });
     
                 const responseJson = await response.json(); 
-         
-
-console.log(responseJson.status)
-                if(username.length>5 && username.length<10){
-    if(username!=null && username!=="" ){
-        local()
-                if (responseJson.status == "true") {
-           
-                    localStorage.setItem("token",responseJson.status)
-                    navigation('/home');
-                } else if(responseJson.status != "true"){
-                    alert("Invalid Otp");
-                    setloader(false)
+    
+                console.log(responseJson.status);
+    
+                if (username.length > 5 && username.length < 10) {
+                    if (username !== null && username !== "") {
+                        local(); // store username in localStorage
+    
+                        if (responseJson.status === "true") {
+                            localStorage.setItem("token", responseJson.status);
+    
+                            // Make sure to navigate only after setting the token
+                            navigation('/home');  // Redirect after setting the token
+    
+                            // Clear email and OTP fields only after successful login
+                            setEmail("");
+                            setotpss("");
+                        } else {
+                            alert("Invalid OTP");
+                            setloader(false);
+                        }
+                    } else {
+                        alert("Enter your username");
+                    }
+                } else {
+                    alert("Username should be between 6 to 9 characters");
                 }
-            }else{
-                alert("enter your username")
-            
-            }
-        }else{
-alert("username should be under 6 to 9 characters")
-
-        }
-
-
-                console.log(responseJson);  // Log the response
     
             } catch (error) {
-                alert(error.error)
-                setloader(false)
+                alert(error.error);
+                setloader(false);
                 console.log(error.error);
             }
         } else {
-            setloader(false)
+            setloader(false);
             alert("Please enter an OTP");
         }
     };
+    
     
 
 

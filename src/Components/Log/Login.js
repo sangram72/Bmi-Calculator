@@ -103,7 +103,11 @@ function local(){
                             localStorage.setItem("token", responseJson.status);
     
                             // Make sure to navigate only after setting the token
-                            navigation('/home');  // Redirect after setting the token
+                            setTimeout(() => {
+                                navigation('/home');
+                            }, 1000);
+                            
+  // Redirect after setting the token
     
                             // Clear email and OTP fields only after successful login
                             setEmail("");

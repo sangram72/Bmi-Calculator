@@ -103,8 +103,9 @@ function local(){
                             localStorage.setItem("token", responseJson.status);
     
                             // Make sure to navigate only after setting the token
-                      //
-                           window.location.reload()
+                         
+                                navigation('/Home');
+                    
                             
   // Redirect after setting the token
     
